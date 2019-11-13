@@ -63,3 +63,4 @@ elseif(isset($_POST['scan']))
     else
         ft_error();
 }
+echo "</body></html>";

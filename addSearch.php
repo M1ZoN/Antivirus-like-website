@@ -3,6 +3,8 @@
 require_once 'login.php';
 require_once 'upload.php';
 
+echo "<html><head><title>Authorization page</title></head><body>";
+
 function auth($connection, $sal1, $salt2)
 {
     if (isset($_POST['login']))
@@ -64,3 +66,4 @@ elseif (isset($_POST['upload']))
     else
         ft_error();
 }
+echo "</body></html>";

@@ -49,3 +49,4 @@ elseif (isset($_POST['deletebtn']))
     if (!$res)
         ft_error();
 }
+echo "</body></html>";
