@@ -1,17 +1,14 @@
 <?php
-
 function ft_error()
 {
 	echo "<div id='error'>Sorry :(<br /><img src ='https://www.elegantthemes.com/blog/wp-content/uploads/2016/03/500-internal-server-error-featured-image-1.png'></div>";
 }
-
 function tokenize($var)
 {
 	$salt1 = "qm&h*";
 	$salt2 = "pg!@";
 	return (hash('ripemd128', "$salt1$var$salt2"));
 }
-
 function sanitizeString($var)
 {
     $var = stripslashes($var);
@@ -19,13 +16,11 @@ function sanitizeString($var)
     $var = htmlentities($var);
     return $var;
 }
-
 function sanitizeMySQL($connection, $var){
     $var = $connection->real_escape_string($var);
     $var = sanitizeString($var);
     return $var;
 }
-
 function add_user($connection, $un, $pw, $em)
 {
     $token = tokenize($pw);
@@ -34,7 +29,6 @@ function add_user($connection, $un, $pw, $em)
     if (!$result)
         ft_error();
 }
-
 function createToken($fileLoc)
 {
     $myfile = fopen($fileLoc, "r") or ft_error();
@@ -47,7 +41,6 @@ function createToken($fileLoc)
     }
     return $virus;
 }
-
 function addVirus($conn, $fileLoc, $filename)
 {
     $virus = createToken($fileLoc);
