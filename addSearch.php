@@ -1,8 +1,6 @@
 <?php
-
 require_once 'login.php';
 require_once 'upload.php';
-
 	echo<<<_END
 	<html>
         <head>
@@ -21,6 +19,9 @@ require_once 'upload.php';
                 form {
                     display: inline-block;
                 }
+		#warning {
+		    font-size: 200%;
+		}
             </style>
         </head>
         <body>
@@ -29,7 +30,6 @@ require_once 'upload.php';
                 Check for Viruses: <input type='file' name='virusCheck'><input type='submit' value='Check!' name='checkVir' class='btn btn-danger'><br>
             </form><br>
 _END;
-
 if (isset($_POST['uploadVir']))
 {
     $filename = sanitizeMySQL($conn, $_FILES['fileUpload']['name']);
@@ -41,16 +41,16 @@ if (isset($_POST['uploadVir']))
 }
 elseif (isset($_POST['checkVir']))
 {
-    $virus = createToken($conn, $FILES['virusCheck']['tmp_name']);
-    $search = "SELECT * FROM viruses WHERE content='$virus'";
-    $res = $conn->query($search);
-    if ($res->num_rows > 0)
-    {
-	$filename = $res->fetch_assoc()['filename'];
-        echo "<div id='warning'><br><br> WARNING IT IS A VIRUS! NAME = $filename<br><br></div>";
-    }
-    else
-        ft_error();
+	if (file_exists($_FILES['virusCheck']['tmp_name']))
+	{
+	    $virus = createToken($_FILES['virusCheck']['tmp_name']);
+	    $search = "SELECT * FROM viruses WHERE content='$virus'";
+	    $res = $conn->query($search);
+	    if ($res->num_rows > 0)
+		echo "<div id='warning'><br><br> WARNING IT IS A VIRUS!<br><br></div>";
+	    else
+		ft_error();
+	}
 }
 $conn->close();
 echo "</body></html>";
