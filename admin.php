@@ -1,7 +1,6 @@
 <?php
 require_once 'login.php';
 require_once 'upload.php';
-
 echo <<<_END
     <html>
         <head>
@@ -29,7 +28,6 @@ echo <<<_END
                 Filename: <input type='text' name='delete'><input type='submit' value='Delete Virus' name='deletebtn'>
             </form><br>
 _END;
-
 if (isset($_POST['upload']))
 {
     $filename = sanitizeMySQL($conn, $_FILES['file']['name']);
@@ -46,7 +44,6 @@ elseif (isset($_POST['review']))
     if ($res->num_rows > 0)
     {
         echo "<table><tr><th>Filenames of viruses</th><th>Encrypted virus</th></tr>";
-
         while ($row = $res->fetch_assoc())
         {
             echo "<tr><td>" .$row["filename"] . "</td><td>" .$row["content"] . "</td></tr>";
