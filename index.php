@@ -1,8 +1,6 @@
 <?php
-
 require_once 'login.php';
 require_once 'upload.php';
-
 echo<<<_END
     <html>
         <head>
@@ -33,9 +31,7 @@ echo<<<_END
             <form action='index.php' method='post' enctype='multipart/form-data'> 
                 Input File To Scan:<input type='file' name='virusToScan'><input type='submit' value='Scan File' name='scan' class='btn btn-danger'>
             </form>
-
 _END;
-
 function auth($conn)
 {
     if (isset($_POST['login']))
@@ -60,9 +56,9 @@ function auth($conn)
                     echo "<br>Hi, contributor $row[username]<br>";
                     echo "<form action='addSearch.php'><input type='submit' value='Profile' name='userProfile' class='btn btn-warning'></form>";
                 }
-                else die("Invalid username/password combination");
+                else die("<br>Invalid username/password combination");
             }
-            else die("Invalid username/password combination");
+            else die("<br>Invalid username/password combination");
     }
     else 
     {
@@ -71,7 +67,6 @@ function auth($conn)
         die ("Please enter your username and password");
     }
 }
-
 function loginOrSignup()
 {
     echo<<<_LOGIN
@@ -85,19 +80,20 @@ function loginOrSignup()
             </form><br>
 _LOGIN;
 }
-
 if (isset($_POST['loginOrSignup']))
     loginOrSignup();
 elseif (isset($_POST['scan']))
 {
-    $virus = createToken($conn, $FILES['virusToScan']['tmp_name']);
-	echo "$virus";
-    $search = "SELECT * FROM viruses WHERE content='$virus'";
-    $res = $conn->query($search);
-    if ($res->num_rows > 0)
-        echo "<div id='warning'><br><br> WARNING IT IS A VIRUS!<br><br></div>";
-    else
-        ft_error();
+	if (file_exists($_FILES['virusToScan']['tmp_name']))
+	{
+	    $virus = createToken($_FILES['virusToScan']['tmp_name']);
+	    $search = "SELECT * FROM viruses WHERE content='$virus'";
+	    $res = $conn->query($search);
+	    if ($res->num_rows > 0)
+		echo "<div id='warning'><br><br> WARNING IT IS A VIRUS!<br><br></div>";
+	    else
+		ft_error();
+	}
 }
 elseif (isset($_POST['login']))
     auth($conn);
