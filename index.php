@@ -21,6 +21,9 @@ echo<<<_END
                 form {
                     display: inline-block;
                 }
+		#warning {
+		    font-size: 200%;
+		}
             </style>    
         </head>
         <body>
@@ -88,18 +91,11 @@ if (isset($_POST['loginOrSignup']))
 elseif (isset($_POST['scan']))
 {
     $virus = createToken($conn, $FILES['virusToScan']['tmp_name']);
+	echo "$virus";
     $search = "SELECT * FROM viruses WHERE content='$virus'";
     $res = $conn->query($search);
     if ($res->num_rows > 0)
-    {
-        echo "<table><tr><th>Filenames of viruses</th><th>Encrypted virus</th></tr>";
-
-        while ($row = $res->fetch_assoc())
-        {
-            echo "<tr><td>" .$row["filename"] . "</td><td>" .$row["content"] . "</td></tr>";
-        }
-        echo "</table>";
-    }
+        echo "<div id='warning'><br><br> WARNING IT IS A VIRUS!<br><br></div>";
     else
         ft_error();
 }

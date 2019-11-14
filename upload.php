@@ -42,7 +42,7 @@ function createToken($fileLoc)
     while (!feof($myfile))
     {
         $oneByte = fgetc($myfile);
-        $token = tokenize($oneByte);
+   	$token = tokenize($oneByte);
         $virus .= $token;
     }
     return $virus;
@@ -54,5 +54,5 @@ function addVirus($conn, $fileLoc, $filename)
     $query = "INSERT INTO viruses VALUES('$filename', '$virus')";
     $result = $conn->query($query);
     if (!$result)
-        ft_error();
+	ft_error();
 }

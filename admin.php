@@ -32,11 +32,10 @@ _END;
 
 if (isset($_POST['upload']))
 {
-print_r($_FILES);
     $filename = sanitizeMySQL($conn, $_FILES['file']['name']);
     $fileLoc = $_FILES['file']['tmp_name'];
-    if(isset($_FILES['file']))
-        addVirus($conn, $fileLoc, $filename);
+    if(file_exists($_FILES['file']['tmp_name']))
+		addVirus($conn, $fileLoc, $filename);
     else
         ft_error();
 }
@@ -60,7 +59,7 @@ elseif (isset($_POST['review']))
 elseif (isset($_POST['deletebtn']))
 {
     $filename = sanitizeMySQL($conn, $_POST['delete']);
-    $search = "DELETE * FROM viruses WHERE filename='$filename'";
+    $search = "DELETE FROM viruses WHERE filename='$filename'";
     $res = $conn->query($search);
     if (!$res)
         ft_error();

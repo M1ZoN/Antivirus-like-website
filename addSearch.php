@@ -25,8 +25,8 @@ require_once 'upload.php';
         </head>
         <body>
             <form action='addSearch.php' enctype='multipart/form-data' method='post'>
-                Upload your file: <input type='file' name='fileUpload'><input type='submit' value='Upload New Virus' name='uploadVir'><br>
-                Check for Viruses: <input type='file' name='virusCheck'><input type='submit' value='Check!' name='checkVir'><br>
+                Upload your file: <input type='file' name='fileUpload'><input type='submit' value='Upload New Virus' name='uploadVir' class='btn btn-warning'><br>
+                Check for Viruses: <input type='file' name='virusCheck'><input type='submit' value='Check!' name='checkVir' class='btn btn-danger'><br>
             </form><br>
 _END;
 
@@ -34,7 +34,6 @@ if (isset($_POST['uploadVir']))
 {
     $filename = sanitizeMySQL($conn, $_FILES['fileUpload']['name']);
     $fileLoc = $_FILES['fileUpload']['tmp_name'];
-print_r($_FILES['fileUpload']);
     if(file_exists($_FILES['fileUpload']['tmp_name']))
         addVirus($conn, $fileLoc, $filename);
     else
@@ -47,13 +46,8 @@ elseif (isset($_POST['checkVir']))
     $res = $conn->query($search);
     if ($res->num_rows > 0)
     {
-        echo "<table><tr><th>Filenames of viruses</th><th>Encrypted virus</th></tr>";
-
-        while ($row = $res->fetch_assoc())
-        {
-            echo "<tr><td>" .$row["filename"] . "</td><td>" .$row["content"] . "</td></tr>";
-        }
-        echo "</table>";
+	$filename = $res->fetch_assoc()['filename'];
+        echo "<div id='warning'><br><br> WARNING IT IS A VIRUS! NAME = $filename<br><br></div>";
     }
     else
         ft_error();
